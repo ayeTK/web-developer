@@ -1,6 +1,6 @@
 # Getting started
 
-## Installation
+## Version
 
 In this project, Laravel v8.68.1 (PHP v7.4.24) and Maatwebsite v3.1 is used.
 
