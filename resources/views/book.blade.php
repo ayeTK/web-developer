@@ -9,7 +9,7 @@
                         <form name="createForm">
                             <div class="form-group row">
                                 <div class="col-md-1"></div>
-                                <label for="title" class="col-md-2 text-md-right required">Title</label>
+                                <label for="title" class="col-md-2 required">Title</label>
                                 <div class="col-md-5">
                                     <input type="text" name="title" class="form-control input-margin mt-2">
                                     <span id="titleError"></span>
@@ -17,7 +17,7 @@
                             </div>
                             <div class="form-group mt-3 row">
                                 <div class="col-md-1"></div>
-                                <label for="author" class="col-md-2 text-md-right label-padding required">Author</label>
+                                <label for="author" class="col-md-2 label-padding required">Author</label>
                                 <div class="col-md-5">
                                     <input type="text" name="author" class="form-control input-margin mt-2">
                                     <span id="authorError"></span>
@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <br>
-                <div class="col-md-10 mx-auto" id="recordDiv">
+                <div class="col-md-10 mx-auto" id="recordDiv" style="display: none;">
                     <div class="col-md-5 mx-auto">
                         <div class="input-group">
                             <input class="form-control border-end-0 border" type="search" id="searchInput" placeholder="Search By Title or Author">
@@ -49,20 +49,24 @@
                     </div>
                     <br>
                     <div class="row">
-                        <strong><i> Export a list with:</i></strong>
-                        <div class="col-md-3 mb-2">
-                            <select  class="form-select" name="export-list" id="selectBox">
-                                <option value="1">Title and Author</option>
-                                <option value="2">Only Titles</option>
-                                <option value="3">Only Authors</option>
-                            </select>
+                        <div class="col-md-3">
+                            <strong><i> Export a list with:</i></strong>
+                            <div class=" mb-2">
+                                <select  class="form-select" name="export-list" id="selectBox">
+                                    <option value="1">Title and Author</option>
+                                    <option value="2">Only Titles</option>
+                                    <option value="3">Only Authors</option>
+                                </select>
+                            </div>
                         </div>
-                        <button class="col-md-2 btn btn-success btn-sm  mb-2" onclick="csvExport()">
-                            <i class="fas fa-file-download"></i>  Export in CSV
-                        </button>
-                        <button class="col-md-2 btn btn-success btn-sm  mb-2 ms-2" onclick="xmlExport()">
-                            <i class="fas fa-file-download"></i>  Export in XML
-                        </button>
+                        <div class="col-md-4 mt-4">
+                            <button class="btn btn-success btn-sm  mb-2" onclick="csvExport()">
+                                <i class="fas fa-file-download"></i>  Export in CSV
+                            </button>
+                            <button class="btn btn-success btn-sm  mb-2" onclick="xmlExport()">
+                                <i class="fas fa-file-download"></i>  Export in XML
+                            </button>
+                        </div>
                     </div>
                     <br>
                     <span id="successAlert"></span>
@@ -91,7 +95,7 @@
                 <form name="editForm">
                     <div class="modal-body">
                         <div class="form-group row">
-                            <label for="author" class="col-md-2 text-md-right label-padding required">Author</label>
+                            <label for="author" class="col-md-2 label-padding required">Author</label>
                             <div class="col-md-8">
                                 <input type="text" name="author" class="form-control input-margin mt-2" required>
                                 <span id="authorError"></span>
@@ -142,7 +146,7 @@
             event.preventDefault();
             axios({
                 method: 'POST',
-                url: '/api/books',
+                url: '/api/books/create',
                 data: {
                     title: titleInput.value,
                     author: authorInput.value,
@@ -175,7 +179,7 @@
         //============== EDIT ==============
         function editAuthor(idToUpdate) {
             id = idToUpdate;
-            axios.get('api/books/'+id)
+            axios.get('api/books/edit/'+id)
             .then(response => {
                 editAuthorInput.value = oldAuthor = response.data.book.author;
                 oldTitle = response.data.book.title;
@@ -186,7 +190,7 @@
         //============== UPDATE ==============
         editForm.onsubmit = function(event) {
             event.preventDefault();
-            axios.put('api/books/'+id, {
+            axios.post('api/books/update/'+id, {
                 author : editAuthorInput.value,
                 })
                 .then(response => {
@@ -203,7 +207,7 @@
         //============== DELETE ==============
         function deleteAuthor(id) {
             if(confirm('Are you sure to delete?')) {
-                axios.delete('api/books/'+id)
+                axios.post('api/books/delete/'+id)
                     .then(response => {
                         if(response.data.bookList.length != 0) {
                             recordDiv.style.display = 'block';

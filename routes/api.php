@@ -18,7 +18,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('books', App\Http\Controllers\API\BookController::class);
+
+Route::get('books', [App\Http\Controllers\API\BookController::class, 'index']);
+Route::get('books/edit/{id}', [App\Http\Controllers\API\BookController::class, 'show']);
+Route::post('books/create', [App\Http\Controllers\API\BookController::class, 'store']);
+Route::post('books/delete/{id}', [App\Http\Controllers\API\BookController::class, 'destroy']);
+
+Route::post('books/update/{id}', [App\Http\Controllers\API\BookController::class, 'update']);
 Route::post('search', [App\Http\Controllers\API\BookController::class, 'search']);
 Route::get('csv-export/{data}', [App\Http\Controllers\API\BookController::class, 'csvExport']);
 Route::get('xml-export/{data}', [App\Http\Controllers\API\BookController::class, 'xmlExport']);

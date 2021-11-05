@@ -22,15 +22,11 @@
         .label-padding {
             padding-top: 15px;
         }
-        .text-md-right {
-            text-align: right;
-        }
         .div-border {
         border: 1px ridge #0000001f;
-        width: 95%;
         }
         .input-content {
-            padding: 40px 0 40px 50px;
+            padding: 40px 50px 40px 50px;
         }
         .required::after {
             content:"*";
